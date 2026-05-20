@@ -716,38 +716,48 @@ function DistDir({setTab,scores,ranked}){
   const ch=DIST_CHANNELS.find(c=>c.id===ac);
   const dists=(DIST[ac]||[]).slice().sort((a,b)=>({Primary:0,Alternative:1,Support:2,Fallback:3}[a.tier]||9)-({Primary:0,Alternative:1,Support:2,Fallback:3}[b.tier]||9));
   const topCh=topId?DIST_CHANNELS.find(c=>c.id===topId):null;
-  return(<div style={{maxWidth:1000,margin:"0 auto",padding:"clamp(16px,3vw,28px) clamp(12px,3vw,16px)",minHeight:"100vh"}}>
-    <div style={{marginBottom:22}}>
-      <h2 style={{fontSize:24,fontWeight:900,color:C.dark,margin:"0 0 8px",textAlign:"center"}}>U.S. Distributor Directory</h2>
-      <p style={{fontSize:17,color:"#555",lineHeight:1.7,maxWidth:680}}>Select a channel to see which distributors, logistics partners, and sales routes apply.</p>
-      {topCh&&scores&&<div onClick={()=>setAc(topId)} style={{background:`linear-gradient(135deg,${topCh.color}18,${topCh.color}08)`,border:`2px solid ${topCh.color}55`,borderRadius:14,padding:"12px 18px",marginTop:14,cursor:"pointer",display:"flex",flexWrap:"wrap",alignItems:"center",gap:12}}>
-        <span style={{fontSize:26}}>{topCh.icon}</span>
-        <div style={{flex:1}}>
-          <div style={{fontSize:13,fontWeight:800,color:topCh.color,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:2}}>🏆 Your #1 ranked channel</div>
-          <div style={{fontSize:16,fontWeight:800,color:C.dark}}>{topCh.label} <span style={{fontWeight:400,color:"#555",fontSize:14}}>— score {scores[topId]}/100</span></div>
-          <div style={{fontSize:13,color:"#777",marginTop:2}}>Tap to see distributors for this channel →</div>
+  return(<div style={{maxWidth:1000,margin:"0 auto",padding:"clamp(14px,3vw,28px) clamp(10px,3vw,16px)",minHeight:"100vh"}}>
+
+    {/* Header */}
+    <div style={{marginBottom:20}}>
+      <h2 style={{fontSize:"clamp(19px,4vw,24px)",fontWeight:900,color:C.dark,margin:"0 0 6px",textAlign:"center"}}>U.S. Distributor Directory</h2>
+      <p style={{fontSize:"clamp(14px,2.5vw,16px)",color:"#555",lineHeight:1.65,maxWidth:680}}>Select a channel to see which distributors, logistics partners, and sales routes apply.</p>
+      {topCh&&scores&&<div onClick={()=>setAc(topId)} style={{background:`linear-gradient(135deg,${topCh.color}18,${topCh.color}08)`,border:`2px solid ${topCh.color}55`,borderRadius:14,padding:"12px 16px",marginTop:14,cursor:"pointer",display:"flex",flexWrap:"wrap",alignItems:"center",gap:10}}>
+        <span style={{fontSize:24,flexShrink:0}}>{topCh.icon}</span>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{fontSize:12,fontWeight:800,color:topCh.color,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:2}}>🏆 Your #1 ranked channel</div>
+          <div style={{fontSize:"clamp(14px,2.5vw,16px)",fontWeight:800,color:C.dark,wordBreak:"break-word"}}>{topCh.label} <span style={{fontWeight:400,color:"#555",fontSize:13}}>— score {scores[topId]}/100</span></div>
+          <div style={{fontSize:13,color:"#777",marginTop:2}}>Tap to see distributors →</div>
         </div>
       </div>}
-      {!topCh&&<div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"12px 16px",marginTop:12,fontSize:15,color:"#7a5c2e",lineHeight:1.6}}>💡 Complete the <strong>Market Entry</strong> tab to see your top ranked channel highlighted here.</div>}
-      {topCh&&<div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"12px 16px",marginTop:10,fontSize:15,color:"#7a5c2e",lineHeight:1.6}}>⚠️ Details are based on industry knowledge as of early 2025. Always verify directly with each distributor before making commitments.</div>}
+      {!topCh&&<div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"12px 14px",marginTop:12,fontSize:"clamp(13px,2.5vw,15px)",color:"#7a5c2e",lineHeight:1.6}}>💡 Complete the <strong>Market Entry</strong> tab to see your top ranked channel highlighted here.</div>}
+      {topCh&&<div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"12px 14px",marginTop:10,fontSize:"clamp(13px,2.5vw,15px)",color:"#7a5c2e",lineHeight:1.6}}>⚠️ Details are based on industry knowledge as of early 2025. Always verify directly with each distributor before making commitments.</div>}
     </div>
 
-    {/* Channel buttons — centered, wrapping */}
-    <div style={{display:"flex",flexWrap:"wrap",gap:10,justifyContent:"center",marginBottom:24}}>
+    {/* Channel buttons — wrap, full width on mobile */}
+    <div style={{display:"flex",flexWrap:"wrap",gap:8,justifyContent:"center",marginBottom:20}}>
       {DIST_CHANNELS.map(c=>(
-        <button key={c.id} onClick={()=>{setAc(c.id);setEx(null);}} style={{padding:"10px clamp(12px,3vw,22px)",borderRadius:99,fontSize:"clamp(13px,2.5vw,16px)",fontWeight:700,background:ac===c.id?c.color:"#fff",color:ac===c.id?"#fff":"#2a2a2a",border:`2px solid ${ac===c.id?c.color:c.id===topId?"#ffd23f":"#5a6473"}`,display:"flex",alignItems:"center",gap:6,transition:"all 0.15s",whiteSpace:"nowrap"}}>
-          {c.id===topId&&<span style={{fontSize:13}}>🏆</span>}
+        <button key={c.id} onClick={()=>{setAc(c.id);setEx(null);}} style={{
+          padding:"9px clamp(10px,2.5vw,18px)",borderRadius:99,
+          fontSize:"clamp(12px,2.5vw,15px)",fontWeight:700,
+          background:ac===c.id?c.color:"#fff",
+          color:ac===c.id?"#fff":"#2a2a2a",
+          border:`2px solid ${ac===c.id?c.color:c.id===topId?"#ffd23f":"#5a6473"}`,
+          display:"flex",alignItems:"center",gap:5,transition:"all 0.15s",
+          whiteSpace:"nowrap",flexShrink:0
+        }}>
+          {c.id===topId&&<span style={{fontSize:12}}>🏆</span>}
           <span>{c.icon}</span>{c.label}
         </button>
       ))}
     </div>
 
     {/* Channel overview banner */}
-    <div style={{background:`${ch.color}0f`,border:`2px solid ${ch.color}33`,borderRadius:16,padding:"16px 20px",marginBottom:20,display:"flex",alignItems:"center",gap:14}}>
-      <div style={{width:46,height:46,borderRadius:12,background:ch.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{ch.icon}</div>
-      <div>
-        <div style={{fontSize:17,fontWeight:900,color:C.dark,marginBottom:3}}>{ch.label} — Distribution Overview</div>
-        <div style={{fontSize:16,color:"#444",lineHeight:1.65}}>
+    <div style={{background:`${ch.color}0f`,border:`2px solid ${ch.color}33`,borderRadius:14,padding:"14px 16px",marginBottom:18,display:"flex",flexWrap:"wrap",alignItems:"flex-start",gap:12}}>
+      <div style={{width:42,height:42,borderRadius:11,background:ch.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{ch.icon}</div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{fontSize:"clamp(14px,2.5vw,17px)",fontWeight:900,color:C.dark,marginBottom:4}}>{ch.label} — Distribution Overview</div>
+        <div style={{fontSize:"clamp(13px,2vw,15px)",color:"#444",lineHeight:1.65,wordBreak:"break-word"}}>
           {ac==="wholefoods"&&"Whole Foods requires a US distributor. UNFI and KeHE are the two primary options. A regional broker accelerates your first buyer meeting."}
           {ac==="sephora"&&"Sephora buys directly from brands — no traditional distributor needed. Your main challenge is meeting their DC compliance and EDI requirements."}
           {ac==="amazon"&&"Amazon doesn't require a distributor. FBA is recommended — you ship to their warehouses and they handle the rest."}
@@ -762,13 +772,13 @@ function DistDir({setTab,scores,ranked}){
       </div>
     </div>
 
-    {/* Tier legend — centered, wrapping, darker text */}
-    <div style={{display:"flex",flexWrap:"wrap",gap:8,justifyContent:"center",marginBottom:20}}>
+    {/* Tier legend */}
+    <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center",marginBottom:18}}>
       {[{t:"Primary",c:"#16a34a",d:"Best starting point"},{t:"Alternative",c:"#6366f1",d:"Valid parallel path"},{t:"Support",c:"#f59e0b",d:"Complements primary"},{t:"Fallback",c:"#4b5563",d:"Short-term only"}].map(t=>(
-        <div key={t.t} style={{display:"flex",alignItems:"center",gap:7,background:"#fff",border:"1.5px solid #d0d5de",borderRadius:99,padding:"7px 16px"}}>
-          <div style={{width:9,height:9,borderRadius:"50%",background:t.c,flexShrink:0}}/>
-          <span style={{fontSize:15,fontWeight:800,color:t.c}}>{t.t}</span>
-          <span style={{fontSize:15,fontWeight:500,color:"#444"}}>— {t.d}</span>
+        <div key={t.t} style={{display:"flex",alignItems:"center",gap:6,background:"#fff",border:"1.5px solid #d0d5de",borderRadius:99,padding:"6px 14px"}}>
+          <div style={{width:8,height:8,borderRadius:"50%",background:t.c,flexShrink:0}}/>
+          <span style={{fontSize:"clamp(12px,2vw,14px)",fontWeight:800,color:t.c}}>{t.t}</span>
+          <span style={{fontSize:"clamp(11px,2vw,13px)",fontWeight:500,color:"#555"}}>— {t.d}</span>
         </div>
       ))}
     </div>
@@ -777,54 +787,55 @@ function DistDir({setTab,scores,ranked}){
     <div style={{display:"flex",flexDirection:"column",gap:12}}>
       {dists.map((d,i)=>{const op=ex===i;return(
         <div key={i} style={{background:"#fff",border:`2px solid ${op?d.tc:"#e4e8ef"}`,borderRadius:18,overflow:"hidden",transition:"border 0.2s"}}>
-          <div onClick={()=>setEx(op?null:i)} style={{padding:"18px 20px",cursor:"pointer"}}>
-            <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
-              <div style={{width:48,height:48,borderRadius:13,background:`${d.tc}14`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}}>{d.logo}</div>
+          <div onClick={()=>setEx(op?null:i)} style={{padding:"16px clamp(12px,3vw,20px)",cursor:"pointer"}}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+              <div style={{width:44,height:44,borderRadius:12,background:`${d.tc}14`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{d.logo}</div>
               <div style={{flex:1,minWidth:0}}>
-                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}}>
-                  <span style={{fontSize:17,fontWeight:900,color:C.dark}}>{d.name}</span>
-                  <span style={{background:`${d.tc}18`,color:d.tc,fontSize:15,fontWeight:800,padding:"2px 10px",borderRadius:99}}>{d.tier}</span>
+                <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:4,flexWrap:"wrap"}}>
+                  <span style={{fontSize:"clamp(14px,2.5vw,17px)",fontWeight:900,color:C.dark}}>{d.name}</span>
+                  <span style={{background:`${d.tc}18`,color:d.tc,fontSize:"clamp(12px,2vw,14px)",fontWeight:800,padding:"2px 9px",borderRadius:99,flexShrink:0}}>{d.tier}</span>
                 </div>
-                <div style={{fontSize:16,color:"#555",lineHeight:1.6}}>{d.summary}</div>
-              </div>
-              <div style={{textAlign:"right",flexShrink:0,minWidth:80}}>
-                <div style={{fontSize:16,color:"#444",marginBottom:3}}>Margin take</div>
-                <div style={{fontSize:17,fontWeight:900,color:d.tc}}>{d.margin}</div>
-                <div style={{fontSize:16,color:"#555",marginTop:5}}>{op?"▲":"▼"}</div>
+                <div style={{fontSize:"clamp(13px,2vw,15px)",color:"#555",lineHeight:1.6,wordBreak:"break-word"}}>{d.summary}</div>
+                {/* Margin take — now inline below summary, always readable */}
+                <div style={{display:"flex",alignItems:"center",gap:8,marginTop:8,flexWrap:"wrap"}}>
+                  <span style={{fontSize:12,fontWeight:700,color:"#888",textTransform:"uppercase",letterSpacing:"0.05em"}}>Margin take:</span>
+                  <span style={{fontSize:"clamp(13px,2.5vw,15px)",fontWeight:900,color:d.tc,wordBreak:"break-word"}}>{d.margin}</span>
+                  <span style={{fontSize:13,color:"#aaa",marginLeft:"auto"}}>{op?"▲ close":"▼ details"}</span>
+                </div>
               </div>
             </div>
           </div>
-          {op&&(<div className="fadein" style={{padding:"0 20px 20px",borderTop:`1px solid ${d.tc}22`}}>
-            <div className="dist-meta" style={{paddingTop:18,marginBottom:16}}>
+          {op&&(<div className="fadein" style={{padding:"0 clamp(12px,3vw,20px) 20px",borderTop:`1px solid ${d.tc}22`}}>
+            <div className="dist-meta" style={{paddingTop:16,marginBottom:16}}>
               {[{l:"Min. order",v:d.minOrder},{l:"MOQ",v:d.moq},{l:"Coverage",v:d.coverage},{l:"Speed",v:d.speed}].map(m=>(
-                <div key={m.l} style={{background:"#f4f6f9",borderRadius:11,padding:"12px 14px"}}>
-                  <div style={{fontSize:15,color:"#444",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:4}}>{m.l}</div>
-                  <div style={{fontSize:15,fontWeight:700,color:C.dark,lineHeight:1.4}}>{m.v}</div>
+                <div key={m.l} style={{background:"#f4f6f9",borderRadius:11,padding:"11px 13px"}}>
+                  <div style={{fontSize:12,color:"#666",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{m.l}</div>
+                  <div style={{fontSize:"clamp(13px,2vw,15px)",fontWeight:700,color:C.dark,lineHeight:1.4,wordBreak:"break-word"}}>{m.v}</div>
                 </div>
               ))}
             </div>
             <div className="dist-pros" style={{marginBottom:16}}>
               <div>
-                <div style={{fontSize:15,fontWeight:800,color:"#16a34a",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:9}}>✅ Pros</div>
-                {d.pros.map((p,i)=><div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",fontSize:16,color:"#333",lineHeight:1.55,marginBottom:6}}><span style={{color:"#16a34a",flexShrink:0}}>•</span>{p}</div>)}
+                <div style={{fontSize:13,fontWeight:800,color:"#16a34a",letterSpacing:"0.07em",textTransform:"uppercase",marginBottom:8}}>✅ Pros</div>
+                {d.pros.map((p,j)=><div key={j} style={{display:"flex",gap:8,alignItems:"flex-start",fontSize:"clamp(13px,2vw,15px)",color:"#333",lineHeight:1.55,marginBottom:6}}><span style={{color:"#16a34a",flexShrink:0}}>•</span>{p}</div>)}
               </div>
               <div>
-                <div style={{fontSize:15,fontWeight:800,color:"#dc2626",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:9}}>⚠️ Cons</div>
-                {d.cons.map((c,i)=><div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",fontSize:16,color:"#333",lineHeight:1.55,marginBottom:6}}><span style={{color:"#dc2626",flexShrink:0}}>•</span>{c}</div>)}
+                <div style={{fontSize:13,fontWeight:800,color:"#dc2626",letterSpacing:"0.07em",textTransform:"uppercase",marginBottom:8}}>⚠️ Cons</div>
+                {d.cons.map((c,j)=><div key={j} style={{display:"flex",gap:8,alignItems:"flex-start",fontSize:"clamp(13px,2vw,15px)",color:"#333",lineHeight:1.55,marginBottom:6}}><span style={{color:"#dc2626",flexShrink:0}}>•</span>{c}</div>)}
               </div>
             </div>
             <div style={{marginBottom:14}}>
-              <div style={{fontSize:15,fontWeight:800,color:"#666",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:9}}>Requirements to get started</div>
-              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>{d.req.map((r,i)=><span key={i} style={{background:"#f0f2f5",color:"#333",fontSize:15,fontWeight:600,padding:"5px 13px",borderRadius:99}}>{r}</span>)}</div>
+              <div style={{fontSize:13,fontWeight:800,color:"#666",letterSpacing:"0.07em",textTransform:"uppercase",marginBottom:8}}>Requirements to get started</div>
+              <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>{d.req.map((r,j)=><span key={j} style={{background:"#f0f2f5",color:"#333",fontSize:"clamp(12px,2vw,14px)",fontWeight:600,padding:"5px 12px",borderRadius:99}}>{r}</span>)}</div>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-              <div style={{background:`${d.tc}0a`,border:`1.5px solid ${d.tc}33`,borderRadius:12,padding:"13px 15px"}}>
-                <div style={{fontSize:15,fontWeight:800,color:d.tc,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>How to contact</div>
-                <div style={{fontSize:15,color:"#333",lineHeight:1.6}}>{d.contact}</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr",gap:10}}>
+              <div style={{background:`${d.tc}0a`,border:`1.5px solid ${d.tc}33`,borderRadius:12,padding:"13px 14px"}}>
+                <div style={{fontSize:12,fontWeight:800,color:d.tc,letterSpacing:"0.07em",textTransform:"uppercase",marginBottom:5}}>How to contact</div>
+                <div style={{fontSize:"clamp(13px,2vw,15px)",color:"#333",lineHeight:1.6,wordBreak:"break-word"}}>{d.contact}</div>
               </div>
-              <div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"13px 15px"}}>
-                <div style={{fontSize:15,fontWeight:800,color:"#d97706",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:6}}>💡 Key insight</div>
-                <div style={{fontSize:15,color:"#7a5c2e",lineHeight:1.6}}>{d.note}</div>
+              <div style={{background:"#fffbf0",border:"1.5px solid #ffd23f",borderRadius:12,padding:"13px 14px"}}>
+                <div style={{fontSize:12,fontWeight:800,color:"#d97706",letterSpacing:"0.07em",textTransform:"uppercase",marginBottom:5}}>💡 Key insight</div>
+                <div style={{fontSize:"clamp(13px,2vw,15px)",color:"#7a5c2e",lineHeight:1.6,wordBreak:"break-word"}}>{d.note}</div>
               </div>
             </div>
           </div>)}
